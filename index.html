@@ -125,6 +125,50 @@
   .forest-stat strong{ color: var(--ink); font-weight:500; }
   .forest-foot{ margin-top:16px; padding-top:12px; border-top:1px solid var(--line); font-size:0.76rem; color: var(--text-muted); font-family: var(--font-mono); }
 
+  /* ---------- IN-CARD CHARTS (bar + lollipop) ---------- */
+  .mini-chart{
+    background: #fbfaf7; border: 1px solid var(--line); border-radius: 5px;
+    padding: 16px 18px 12px; margin: 14px 0 16px;
+  }
+  .mini-chart-title{ font-family: var(--font-mono); font-size:0.72rem; color: var(--text-muted); margin-bottom: 12px; }
+  .mini-chart-title strong{ color: var(--ink); font-weight:500; }
+
+  .bar-row{ display:grid; grid-template-columns: 108px 1fr 64px; align-items:center; gap:10px; padding: 5px 0; }
+  .bar-name{ font-size:0.8rem; color: var(--text); }
+  .bar-track{ position:relative; height:10px; background:#efece3; border-radius:2px; overflow:hidden; }
+  .bar-fill{ position:absolute; left:0; top:0; bottom:0; width:0; background: var(--ink-soft); border-radius:2px; transition: width 0.7s cubic-bezier(.2,.8,.2,1); }
+  .bar-row.best .bar-fill{ background: var(--signal); }
+  .bar-row.in .bar-fill{ width: var(--w); }
+  .bar-value{ font-family: var(--font-mono); font-size:0.76rem; color: var(--text-muted); text-align:right; }
+  .bar-row.best .bar-value{ color: var(--signal); font-weight:500; }
+
+  .lolli-groups{ display:flex; gap:18px; margin-bottom:10px; font-family: var(--font-mono); font-size:0.7rem; color: var(--text-muted); }
+  .lolli-groups span{ display:inline-flex; align-items:center; gap:5px; }
+  .lolli-groups .sw{ width:8px; height:8px; border-radius:50%; display:inline-block; }
+  .lolli-row{ display:grid; grid-template-columns: 128px 1fr 46px; align-items:center; gap:10px; padding: 4px 0; }
+  .lolli-name{ font-size:0.78rem; color: var(--text); }
+  .lolli-track{ position:relative; height:14px; }
+  .lolli-track .line{ position:absolute; top:50%; left:0; height:2px; width:0; background: var(--line); transform: translateY(-50%); transition: width 0.6s ease; }
+  .lolli-track .pt{ position:absolute; top:50%; left: var(--w); width:8px; height:8px; border-radius:50%; transform: translate(-50%,-50%) scale(0); background: var(--sage); transition: transform 0.4s cubic-bezier(.34,1.56,.64,1); }
+  .lolli-row.slow .pt{ background: var(--signal); }
+  .lolli-row.in .line{ width: var(--w); }
+  .lolli-row.in .pt{ transform: translate(-50%,-50%) scale(1); }
+  .lolli-value{ font-family: var(--font-mono); font-size:0.74rem; color: var(--text-muted); text-align:right; }
+
+  /* ---------- ENVIRONMENT DIAGRAM (RL project) ---------- */
+  .env-diagram svg{ width:100%; height:auto; display:block; }
+  .env-legend{ display:flex; flex-wrap:wrap; gap:16px; margin-top:12px; font-family: var(--font-mono); font-size:0.7rem; color: var(--text-muted); }
+  .env-legend span{ display:inline-flex; align-items:center; gap:6px; }
+  .env-legend i{ width:9px; height:9px; border-radius:50%; display:inline-block; }
+  .env-path{ stroke-dasharray: 4 4; opacity: 0; transition: opacity 0.6s ease 0.3s; }
+  .env-diagram.in .env-path{ opacity: 1; }
+  .env-dot{ transform-origin: center; transform-box: fill-box; transform: scale(0); transition: transform 0.4s cubic-bezier(.34,1.56,.64,1); }
+  .env-diagram.in .env-dot{ transform: scale(1); }
+  .env-dot:nth-of-type(1){ transition-delay: 0.05s; }
+  .env-dot:nth-of-type(2){ transition-delay: 0.15s; }
+  .env-dot:nth-of-type(3){ transition-delay: 0.25s; }
+  .env-dot:nth-of-type(4){ transition-delay: 0.35s; }
+
   /* ---------- SECTIONS ---------- */
   section{ padding: 62px 0; border-top: 1px solid var(--line); }
   .section-head{ display:flex; align-items:baseline; gap: 12px; margin-bottom: 30px; }
@@ -321,9 +365,42 @@
       </div>
       <p class="project-meta">Machine learning course project</p>
       <ul>
-        <li>Built and compared five classifiers (logistic regression, LDA, KNN, decision tree, random forest) on 30 FNA biopsy features (n = 569).</li>
-        <li>5-fold cross-validation, evaluated on AUC, sensitivity, and specificity.</li>
-        <li>Best model reached <span class="stat">AUC 0.9997</span> with <span class="stat">100% sensitivity</span> on held-out data.</li>
+        <li>Built and compared five classifiers (logistic regression, LDA, KNN, decision tree, random forest) on 30 FNA biopsy features from the UCI WDBC dataset (n = 569, stratified 80/20 split).</li>
+        <li>Tuned hyperparameters via 5-fold cross-validation (<span class="stat">KNN k=14</span>, <span class="stat">random forest mtry=3</span>) and evaluated on accuracy, sensitivity, specificity, and AUC.</li>
+      </ul>
+
+      <div class="mini-chart" id="chart-bc">
+        <div class="mini-chart-title"><strong>Test-set AUC by model</strong> — held-out set, n = 113</div>
+        <div class="bar-row" data-w="34.4" style="--w:34.4%">
+          <span class="bar-name">Decision Tree</span>
+          <div class="bar-track"><div class="bar-fill"></div></div>
+          <span class="bar-value">0.934</span>
+        </div>
+        <div class="bar-row" data-w="71.8" style="--w:71.8%">
+          <span class="bar-name">Logistic Reg.</span>
+          <div class="bar-track"><div class="bar-fill"></div></div>
+          <span class="bar-value">0.972</span>
+        </div>
+        <div class="bar-row" data-w="97.7" style="--w:97.7%">
+          <span class="bar-name">LDA</span>
+          <div class="bar-track"><div class="bar-fill"></div></div>
+          <span class="bar-value">0.998</span>
+        </div>
+        <div class="bar-row" data-w="98.0" style="--w:98.0%">
+          <span class="bar-name">KNN (k=14)</span>
+          <div class="bar-track"><div class="bar-fill"></div></div>
+          <span class="bar-value">0.998</span>
+        </div>
+        <div class="bar-row best" data-w="99.7" style="--w:99.7%">
+          <span class="bar-name">Random Forest</span>
+          <div class="bar-track"><div class="bar-fill"></div></div>
+          <span class="bar-value">0.9997</span>
+        </div>
+      </div>
+
+      <ul>
+        <li>Random forest was the top performer: <span class="stat">AUC 0.9997</span>, <span class="stat">100% sensitivity</span>, zero missed malignancies on 42 held-out test cases.</li>
+        <li>Identified nuclear concavity and perimeter variability (<span class="stat">perimeter_se</span>, <span class="stat">concave_points_worst</span>) as the strongest predictors via Gini importance, consistent with known clinical indicators.</li>
       </ul>
     </div>
 
@@ -332,10 +409,72 @@
         <h3 class="project-title">COVID-19 Epidemiological Trends</h3>
         <span class="project-tool">R</span>
       </div>
-      <p class="project-meta">Time-series analysis, multi-state U.S. data</p>
+      <p class="project-meta">Time-series analysis · national + state-level U.S. data, 2020</p>
       <ul>
-        <li>Analyzed state-level daily case data using 7-day moving averages to identify peak infection periods.</li>
-        <li>Compared post-peak recovery trends across states and produced a reproducible R Markdown report.</li>
+        <li>Built daily new-case counts and 7-day moving averages from cumulative NYT case data for the U.S. and all 50 states plus territories.</li>
+        <li>Identified the first-wave peak date for all 55 states/territories and found peaks spread from <span class="stat">July to January</span>, with most states peaking in November–December, driving the national winter surge.</li>
+      </ul>
+
+      <div class="mini-chart" id="chart-covid">
+        <div class="mini-chart-title"><strong>Days to decline to 50% of first peak</strong> — fastest vs. slowest states</div>
+        <div class="lolli-groups">
+          <span><i class="sw" style="background:var(--sage)"></i>fastest to decline</span>
+          <span><i class="sw" style="background:var(--signal)"></i>slowest to decline</span>
+        </div>
+        <div class="lolli-row" data-w="10" style="--w:10%">
+          <span class="lolli-name">N. Mariana Islands</span>
+          <div class="lolli-track"><span class="line"></span><span class="pt"></span></div>
+          <span class="lolli-value">4d</span>
+        </div>
+        <div class="lolli-row" data-w="12.5" style="--w:12.5%">
+          <span class="lolli-name">Virgin Islands</span>
+          <div class="lolli-track"><span class="line"></span><span class="pt"></span></div>
+          <span class="lolli-value">5d</span>
+        </div>
+        <div class="lolli-row" data-w="32.5" style="--w:32.5%">
+          <span class="lolli-name">Alaska</span>
+          <div class="lolli-track"><span class="line"></span><span class="pt"></span></div>
+          <span class="lolli-value">13d</span>
+        </div>
+        <div class="lolli-row" data-w="32.5" style="--w:32.5%">
+          <span class="lolli-name">Guam</span>
+          <div class="lolli-track"><span class="line"></span><span class="pt"></span></div>
+          <span class="lolli-value">13d</span>
+        </div>
+        <div class="lolli-row" data-w="35" style="--w:35%">
+          <span class="lolli-name">North Dakota</span>
+          <div class="lolli-track"><span class="line"></span><span class="pt"></span></div>
+          <span class="lolli-value">14d</span>
+        </div>
+        <div class="lolli-row slow" data-w="80" style="--w:80%">
+          <span class="lolli-name">Wisconsin</span>
+          <div class="lolli-track"><span class="line"></span><span class="pt"></span></div>
+          <span class="lolli-value">32d</span>
+        </div>
+        <div class="lolli-row slow" data-w="80" style="--w:80%">
+          <span class="lolli-name">Kansas</span>
+          <div class="lolli-track"><span class="line"></span><span class="pt"></span></div>
+          <span class="lolli-value">32d</span>
+        </div>
+        <div class="lolli-row slow" data-w="92.5" style="--w:92.5%">
+          <span class="lolli-name">Colorado</span>
+          <div class="lolli-track"><span class="line"></span><span class="pt"></span></div>
+          <span class="lolli-value">37d</span>
+        </div>
+        <div class="lolli-row slow" data-w="95" style="--w:95%">
+          <span class="lolli-name">Missouri</span>
+          <div class="lolli-track"><span class="line"></span><span class="pt"></span></div>
+          <span class="lolli-value">38d</span>
+        </div>
+        <div class="lolli-row slow" data-w="97.5" style="--w:97.5%">
+          <span class="lolli-name">Illinois</span>
+          <div class="lolli-track"><span class="line"></span><span class="pt"></span></div>
+          <span class="lolli-value">39d</span>
+        </div>
+      </div>
+
+      <ul>
+        <li>Only ~20 of 55 states/territories fell to 50% of their peak by year-end; decline speed ranged from <span class="stat">4 to 39 days</span>, mapped geographically to show the Midwest lagging behind coastal and island regions.</li>
       </ul>
     </div>
 
@@ -346,9 +485,35 @@
       </div>
       <p class="project-meta">Cambridge Deep Learning Summer Program</p>
       <ul>
-        <li>Built a multi-agent reinforcement learning environment in PettingZoo to simulate adversarial resource capture.</li>
-        <li>Implemented Actor-Critic and MADDPG with a custom reward function combining pursuit and evasion incentives.</li>
-        <li>Trained agents over <span class="stat">10,000 episodes</span> across two scenarios, evaluated over 20 held-out episodes.</li>
+        <li>Built a multi-agent reinforcement learning environment in PettingZoo (<span class="stat">simple_adversary_v2</span>) with 2 cooperating agents, 1 adversary, and 2 landmarks — one randomly designated the goal.</li>
+        <li>Implemented Actor-Critic (3-layer MLP, ReLU, Gumbel-Softmax) and MADDPG, and added a custom pursuit-reward term so the adversary is penalized for straying from the agents.</li>
+      </ul>
+
+      <div class="mini-chart">
+        <div class="mini-chart-title"><strong>Environment setup</strong> — simple_adversary_v2, PettingZoo</div>
+        <div class="env-diagram" id="env-diagram">
+          <svg viewBox="0 0 400 170" xmlns="http://www.w3.org/2000/svg">
+            <line class="env-path" x1="252" y1="120" x2="100" y2="130" stroke="var(--signal)" stroke-width="1.5"/>
+            <line class="env-path" x1="180" y1="55" x2="230" y2="100" stroke="var(--ink-soft)" stroke-width="1.5"/>
+            <line class="env-path" x1="180" y1="55" x2="100" y2="130" stroke="var(--sage)" stroke-width="1.5"/>
+
+            <circle class="env-dot" cx="300" cy="45" r="7" fill="#2b2b28"/>
+            <circle class="env-dot" cx="100" cy="130" r="7" fill="var(--sage)"/>
+            <circle class="env-dot" cx="252" cy="120" r="7" fill="var(--signal)"/>
+            <circle class="env-dot" cx="180" cy="55" r="7" fill="var(--ink-soft)"/>
+            <circle class="env-dot" cx="230" cy="100" r="7" fill="var(--ink-soft)"/>
+          </svg>
+        </div>
+        <div class="env-legend">
+          <span><i style="background:#2b2b28"></i>landmark</span>
+          <span><i style="background:var(--sage)"></i>goal landmark</span>
+          <span><i style="background:var(--signal)"></i>adversary</span>
+          <span><i style="background:var(--ink-soft)"></i>cooperating agents (2)</span>
+        </div>
+      </div>
+
+      <ul>
+        <li>Trained agents over <span class="stat">10,000 episodes</span> across two scenarios (cooperative communication and competitive pursuit) and evaluated policy performance over <span class="stat">20 held-out episodes</span>.</li>
       </ul>
     </div>
   </div>
@@ -440,6 +605,28 @@
         setTimeout(() => row.classList.add('in'), i * 140);
       });
     }, 200);
+
+    // Animate in-card bar / lollipop charts when scrolled into view
+    const chartBoxes = document.querySelectorAll('.mini-chart');
+    if ('IntersectionObserver' in window) {
+      const obs = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const chartRows = entry.target.querySelectorAll('.bar-row, .lolli-row');
+            chartRows.forEach((row, i) => {
+              setTimeout(() => row.classList.add('in'), i * 90);
+            });
+            const envDiagram = entry.target.querySelector('.env-diagram');
+            if (envDiagram) envDiagram.classList.add('in');
+            obs.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.3 });
+      chartBoxes.forEach((box) => obs.observe(box));
+    } else {
+      document.querySelectorAll('.bar-row, .lolli-row').forEach((row) => row.classList.add('in'));
+      document.querySelectorAll('.env-diagram').forEach((d) => d.classList.add('in'));
+    }
   });
 </script>
 
