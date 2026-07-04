@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jingjing (Alice) Zhang — Biostatistics &amp; Data Science</title>
+<meta name="description" content="Portfolio of Jingjing (Alice) Zhang — MS Biostatistics candidate at NYU. Statistical modeling, epidemiology, and applied machine learning for health data.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,500;0,600;1,400;1,500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #faf9f5;
+    --paper: #ffffff;
+    --ink: #1f3864;
+    --ink-soft: #3c527c;
+    --sage: #4c7a73;
+    --signal: #b8862b;
+    --muted-dot: #a8a29a;
+    --line: #e2ddd0;
+    --text: #2b2b28;
+    --text-muted: #6b6a63;
+    --font-display: 'Newsreader', Georgia, serif;
+    --font-body: 'IBM Plex Sans', -apple-system, sans-serif;
+    --font-mono: 'IBM Plex Mono', 'Courier New', monospace;
+    --max-w: 920px;
+  }
+
+  *{ box-sizing: border-box; }
+  html{ scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior: auto; }
+    *{ animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
+  }
+
+  body{
+    margin:0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a{ color: var(--ink); text-decoration-color: var(--line); text-underline-offset: 3px; }
+  a:hover{ text-decoration-color: var(--ink); }
+  a:focus-visible, button:focus-visible{ outline: 2px solid var(--signal); outline-offset: 3px; }
+
+  .wrap{ max-width: var(--max-w); margin: 0 auto; padding: 0 24px; }
+
+  /* ---------- NAV ---------- */
+  nav{
+    position: sticky; top:0; z-index: 50;
+    background: rgba(250,249,245,0.88);
+    backdrop-filter: blur(6px);
+    border-bottom: 1px solid var(--line);
+  }
+  nav .wrap{ display:flex; align-items:center; justify-content:space-between; padding-top:14px; padding-bottom:14px; }
+  .brand{ font-family: var(--font-display); font-weight:600; font-size:1.05rem; color: var(--ink); text-decoration:none; letter-spacing: 0.01em; }
+  .navlinks{ display:flex; gap: 24px; align-items:center; }
+  .navlinks a{ font-size: 0.88rem; color: var(--text-muted); text-decoration:none; }
+  .navlinks a:hover{ color: var(--ink); }
+  .navlinks .cta{
+    font-family: var(--font-mono); font-size:0.78rem; color: var(--paper);
+    background: var(--ink); padding: 7px 14px; border-radius: 3px; text-decoration:none;
+  }
+  .navlinks .cta:hover{ background: var(--ink-soft); }
+
+  /* ---------- HERO ---------- */
+  header.hero{
+    position: relative;
+    padding: 76px 0 56px;
+    background-image:
+      linear-gradient(var(--bg), var(--bg)),
+      repeating-linear-gradient(0deg, rgba(31,56,100,0.045) 0 1px, transparent 1px 28px),
+      repeating-linear-gradient(90deg, rgba(31,56,100,0.045) 0 1px, transparent 1px 28px);
+    background-blend-mode: normal;
+  }
+  .eyebrow{
+    font-family: var(--font-mono); font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--sage); margin: 0 0 14px;
+  }
+  h1.headline{
+    font-family: var(--font-display); font-weight: 500; font-style: italic;
+    font-size: clamp(2.1rem, 5vw, 3.35rem); line-height: 1.14; margin: 0 0 20px; color: var(--ink);
+    max-width: 15ch;
+  }
+  .hero-sub{ font-size: 1.08rem; color: var(--text-muted); max-width: 46ch; margin: 0 0 30px; }
+  .hero-actions{ display:flex; gap:14px; flex-wrap:wrap; margin-bottom: 54px; }
+  .btn{
+    font-family: var(--font-body); font-weight:500; font-size:0.92rem;
+    padding: 11px 20px; border-radius: 3px; text-decoration:none; display:inline-block; border: 1px solid transparent;
+  }
+  .btn-primary{ background: var(--ink); color: var(--paper); }
+  .btn-primary:hover{ background: var(--ink-soft); }
+  .btn-ghost{ border-color: var(--ink); color: var(--ink); }
+  .btn-ghost:hover{ background: var(--ink); color: var(--paper); }
+
+  /* ---------- FOREST PLOT (signature element) ---------- */
+  .forest{
+    background: var(--paper); border: 1px solid var(--line); border-radius: 6px;
+    padding: 26px 26px 20px;
+  }
+  .forest-head{ display:flex; justify-content:space-between; align-items:baseline; margin-bottom:18px; flex-wrap:wrap; gap:6px;}
+  .forest-title{ font-family: var(--font-mono); font-size:0.8rem; color: var(--text-muted); }
+  .forest-title strong{ color: var(--ink); font-weight:500; }
+  .forest-legend{ font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-muted); }
+  .forest-row{ display:grid; grid-template-columns: 148px 1fr 120px; align-items:center; gap:14px; padding: 9px 0; border-top: 1px solid var(--line); }
+  .forest-row:first-of-type{ border-top:none; }
+  .forest-label{ font-size:0.85rem; color: var(--text); }
+  .forest-track{ position:relative; height: 20px; }
+  .forest-track .ref{ position:absolute; top:-4px; bottom:-4px; width:1px; background: var(--line); }
+  .forest-track .ci{ position:absolute; top:50%; height:2px; background: var(--ink-soft); transform: translateY(-50%); opacity:0; transition: opacity 0.5s ease; }
+  .forest-track .cap{ position:absolute; top:50%; width:1px; height:8px; background: var(--ink-soft); transform: translateY(-50%); opacity:0; transition: opacity 0.5s ease; }
+  .forest-track .dot{
+    position:absolute; top:50%; width:9px; height:9px; border-radius:50%;
+    transform: translate(-50%,-50%) scale(0); background: var(--signal);
+    transition: transform 0.45s cubic-bezier(.34,1.56,.64,1);
+  }
+  .forest-track .dot.muted{ background: var(--muted-dot); }
+  .forest-row.in .ci, .forest-row.in .cap{ opacity: 1; }
+  .forest-row.in .dot{ transform: translate(-50%,-50%) scale(1); }
+  .forest-stat{ font-family: var(--font-mono); font-size:0.76rem; color: var(--text-muted); text-align:right; }
+  .forest-stat strong{ color: var(--ink); font-weight:500; }
+  .forest-foot{ margin-top:16px; padding-top:12px; border-top:1px solid var(--line); font-size:0.76rem; color: var(--text-muted); font-family: var(--font-mono); }
+
+  /* ---------- SECTIONS ---------- */
+  section{ padding: 62px 0; border-top: 1px solid var(--line); }
+  .section-head{ display:flex; align-items:baseline; gap: 12px; margin-bottom: 30px; }
+  .section-num{ font-family: var(--font-mono); font-size:0.78rem; color: var(--signal); }
+  h2{ font-family: var(--font-display); font-weight:500; font-size: 1.7rem; margin:0; color: var(--ink); }
+
+  /* ---- about ---- */
+  .about-grid{ display:grid; grid-template-columns: 1.3fr 1fr; gap: 40px; }
+  .about-grid p{ margin:0 0 14px; color: var(--text); }
+  .chip-row{ display:flex; flex-wrap:wrap; gap:8px; margin-top: 4px; }
+  .chip{
+    font-family: var(--font-mono); font-size: 0.74rem; color: var(--ink-soft);
+    border: 1px solid var(--line); padding: 5px 10px; border-radius: 3px; background: var(--paper);
+  }
+  .edu-list{ list-style:none; margin:0; padding:0; }
+  .edu-list li{ padding: 12px 0; border-top: 1px solid var(--line); }
+  .edu-list li:first-child{ border-top:none; }
+  .edu-school{ font-weight:600; font-size:0.92rem; }
+  .edu-detail{ font-size: 0.82rem; color: var(--text-muted); }
+  .edu-date{ font-family: var(--font-mono); font-size: 0.72rem; color: var(--sage); }
+
+  /* ---- projects ---- */
+  .project{
+    background: var(--paper); border: 1px solid var(--line); border-radius: 6px;
+    padding: 24px 26px; margin-bottom: 18px;
+  }
+  .project-top{ display:flex; justify-content:space-between; align-items:flex-start; gap: 16px; flex-wrap:wrap; margin-bottom:8px;}
+  .project-title{ font-family: var(--font-display); font-size:1.18rem; font-weight:500; color: var(--ink); margin:0; }
+  .project-tool{ font-family: var(--font-mono); font-size:0.72rem; color: var(--sage); border:1px solid var(--line); padding:3px 8px; border-radius:3px; white-space:nowrap; }
+  .project-meta{ font-size:0.8rem; color: var(--text-muted); margin: 0 0 12px; }
+  .project ul{ margin: 0; padding-left: 18px; }
+  .project li{ font-size: 0.88rem; margin-bottom: 6px; color: var(--text); }
+  .project li:last-child{ margin-bottom:0; }
+  .project li .stat{ font-family: var(--font-mono); color: var(--ink); background: rgba(184,134,43,0.1); padding: 1px 5px; border-radius:2px; }
+
+  /* ---- skills ---- */
+  .skills-grid{ display:grid; grid-template-columns: repeat(2, 1fr); gap: 24px 40px; }
+  .skill-group h3{
+    font-family: var(--font-mono); font-size:0.76rem; text-transform:uppercase; letter-spacing:0.06em;
+    color: var(--sage); margin: 0 0 10px; font-weight:500;
+  }
+  .skill-tags{ display:flex; flex-wrap:wrap; gap:7px; }
+  .skill-tags span{
+    font-size:0.82rem; padding: 5px 10px; background: var(--paper); border:1px solid var(--line); border-radius:3px;
+  }
+
+  /* ---- footer ---- */
+  footer{ padding: 54px 0 70px; border-top: 1px solid var(--line); }
+  .footer-inner{ display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap: 28px; }
+  footer h2{ margin-bottom:10px; }
+  .footer-links{ display:flex; flex-direction:column; gap:8px; align-items:flex-start; }
+  .footer-links a{ font-size:0.92rem; }
+  .footer-note{ font-family: var(--font-mono); font-size:0.72rem; color: var(--text-muted); margin-top: 40px; }
+
+  @media (max-width: 700px){
+    .about-grid{ grid-template-columns: 1fr; }
+    .skills-grid{ grid-template-columns: 1fr; }
+    .forest-row{ grid-template-columns: 108px 1fr; }
+    .forest-stat{ grid-column: 1 / -1; text-align:left; padding-left:0; margin-top:-4px; }
+    .navlinks a:not(.cta){ display:none; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a class="brand" href="#top">J. Alice Zhang</a>
+    <div class="navlinks">
+      <a href="#projects">Projects</a>
+      <a href="#skills">Skills</a>
+      <a href="#education">Education</a>
+      <a class="cta" href="mailto:jz7964@nyu.edu">Say hello</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="wrap">
+    <p class="eyebrow">Biostatistics · Data Science</p>
+    <h1 class="headline">Findings that hold up when someone checks your work.</h1>
+    <p class="hero-sub">I'm a Master's student in Biostatistics at NYU, working on statistical modeling, epidemiology, and applied machine learning for health data — from cleaning raw survey files to defending a confidence interval.</p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="#projects">View projects</a>
+      <a class="btn btn-ghost" href="resume.pdf" target="_blank" rel="noopener">Download résumé</a>
+      <a class="btn btn-ghost" href="https://www.linkedin.com/in/alice-zhang-6234a8358/" target="_blank" rel="noopener">LinkedIn</a>
+      <a class="btn btn-ghost" href="mailto:jz7964@nyu.edu">Email</a>
+    </div>
+
+    <div class="forest" id="forest">
+      <div class="forest-head">
+        <span class="forest-title"><strong>Adjusted odds of depression</strong> — NHANES 2021–2023, n = 1,546</span>
+        <span class="forest-legend">OR (95% CI), ref. line at OR = 1</span>
+      </div>
+
+      <div class="forest-row" data-lo="28.0" data-hi="61.4" data-est="42.3">
+        <span class="forest-label">Hand difficulty</span>
+        <div class="forest-track"><span class="ref" style="left:14.3%"></span></div>
+        <span class="forest-stat"><strong>1.98</strong> (1.48–2.65)</span>
+      </div>
+      <div class="forest-row" data-lo="40.6" data-hi="81.7" data-est="58.3">
+        <span class="forest-label">Current smoker</span>
+        <div class="forest-track"><span class="ref" style="left:14.3%"></span></div>
+        <span class="forest-stat"><strong>2.54</strong> (1.92–3.36)</span>
+      </div>
+      <div class="forest-row" data-lo="35.4" data-hi="95.4" data-est="59.7">
+        <span class="forest-label">Fair/poor health</span>
+        <div class="forest-track"><span class="ref" style="left:14.3%"></span></div>
+        <span class="forest-stat"><strong>2.59</strong> (1.74–3.84)</span>
+      </div>
+      <div class="forest-row muted-row" data-lo="10.6" data-hi="33.7" data-est="20.3">
+        <span class="forest-label">Diabetes</span>
+        <div class="forest-track"><span class="ref" style="left:14.3%"></span></div>
+        <span class="forest-stat">1.21 (0.87–1.68)</span>
+      </div>
+
+      <div class="forest-foot">Full adjusted model, controlling for smoking, diabetes, and prescription medication use · diabetes not significant (CI crosses 1)</div>
+    </div>
+  </div>
+</header>
+
+<section id="about">
+  <div class="wrap">
+    <div class="section-head"><span class="section-num">01</span><h2>About</h2></div>
+    <div class="about-grid">
+      <div>
+        <p>I'm currently pursuing an MS in Biostatistics at NYU's School of Global Public Health (GPA 3.89), after a BSc in Mathematics at Dalian University of Technology and a Deep Learning summer program at Cambridge. Most of my work lives at the intersection of statistical rigor and applied data science — regression modeling, causal inference, and machine learning applied to messy, real-world health data.</p>
+        <p>I'm looking for internships in biostatistics, epidemiology, or data science, and I'm just as happy running a multivariable logistic regression as I am building a classification model from scratch.</p>
+        <div class="chip-row">
+          <span class="chip">R · tidyverse</span>
+          <span class="chip">Python</span>
+          <span class="chip">SAS</span>
+          <span class="chip">Stata</span>
+          <span class="chip">SQL</span>
+        </div>
+      </div>
+      <div id="education">
+        <ul class="edu-list">
+          <li>
+            <div class="edu-school">New York University</div>
+            <div class="edu-detail">MS in Biostatistics · GPA 3.89/4.0</div>
+            <div class="edu-date">Sep 2025 – Present</div>
+          </li>
+          <li>
+            <div class="edu-school">University of Cambridge, Girton College</div>
+            <div class="edu-detail">Deep Learning Summer Program · First Class</div>
+            <div class="edu-date">Jul 2023 – Aug 2023</div>
+          </li>
+          <li>
+            <div class="edu-school">Dalian University of Technology</div>
+            <div class="edu-detail">BSc in Mathematics</div>
+            <div class="edu-date">Sep 2021 – Jun 2025</div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="projects">
+  <div class="wrap">
+    <div class="section-head"><span class="section-num">02</span><h2>Projects</h2></div>
+
+    <div class="project">
+      <div class="project-top">
+        <h3 class="project-title">Hand Function &amp; Depression Among U.S. Adults</h3>
+        <span class="project-tool">Stata</span>
+      </div>
+      <p class="project-meta">NHANES 2021–2023 · Epidemiologic study</p>
+      <ul>
+        <li>Cross-sectional study (n = <span class="stat">1,546</span>) examining whether difficulty using hands/fingers predicts depression, measured via PHQ-9 as both a binary and continuous outcome.</li>
+        <li>Built crude and multivariable logistic/linear regression models, adjusting for diabetes, smoking, and medication use, and tested general health as an effect modifier.</li>
+        <li>Hand difficulty remained associated with depression after adjustment: <span class="stat">aOR 1.98 (1.48–2.65)</span>, <span class="stat">β 1.55, p &lt; 0.001</span>.</li>
+      </ul>
+    </div>
+
+    <div class="project">
+      <div class="project-top">
+        <h3 class="project-title">MIND Diet &amp; Veggie Meter Study</h3>
+        <span class="project-tool">R</span>
+      </div>
+      <p class="project-meta">NYU Biostatistics Consulting Lab</p>
+      <ul>
+        <li>Cleaned and prepared observational health datasets for analysis using the tidyverse.</li>
+        <li>Modeled associations between dietary patterns and objective vegetable intake, estimating effect sizes and 95% CIs.</li>
+        <li>Produced presentation-ready visualizations for non-technical stakeholders.</li>
+      </ul>
+    </div>
+
+    <div class="project">
+      <div class="project-top">
+        <h3 class="project-title">Breast Cancer Diagnosis Classification</h3>
+        <span class="project-tool">R</span>
+      </div>
+      <p class="project-meta">Machine learning course project</p>
+      <ul>
+        <li>Built and compared five classifiers (logistic regression, LDA, KNN, decision tree, random forest) on 30 FNA biopsy features (n = 569).</li>
+        <li>5-fold cross-validation, evaluated on AUC, sensitivity, and specificity.</li>
+        <li>Best model reached <span class="stat">AUC 0.9997</span> with <span class="stat">100% sensitivity</span> on held-out data.</li>
+      </ul>
+    </div>
+
+    <div class="project">
+      <div class="project-top">
+        <h3 class="project-title">COVID-19 Epidemiological Trends</h3>
+        <span class="project-tool">R</span>
+      </div>
+      <p class="project-meta">Time-series analysis, multi-state U.S. data</p>
+      <ul>
+        <li>Analyzed state-level daily case data using 7-day moving averages to identify peak infection periods.</li>
+        <li>Compared post-peak recovery trends across states and produced a reproducible R Markdown report.</li>
+      </ul>
+    </div>
+
+    <div class="project">
+      <div class="project-top">
+        <h3 class="project-title">Multi-Agent Experiments (MPE)</h3>
+        <span class="project-tool">Python</span>
+      </div>
+      <p class="project-meta">Cambridge Deep Learning Summer Program</p>
+      <ul>
+        <li>Built a multi-agent reinforcement learning environment in PettingZoo to simulate adversarial resource capture.</li>
+        <li>Implemented Actor-Critic and MADDPG with a custom reward function combining pursuit and evasion incentives.</li>
+        <li>Trained agents over <span class="stat">10,000 episodes</span> across two scenarios, evaluated over 20 held-out episodes.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="wrap">
+    <div class="section-head"><span class="section-num">03</span><h2>Skills</h2></div>
+    <div class="skills-grid">
+      <div class="skill-group">
+        <h3>Statistical methods</h3>
+        <div class="skill-tags">
+          <span>Regression analysis</span><span>Time-series analysis</span><span>Probability modeling</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <h3>Programming</h3>
+        <div class="skill-tags">
+          <span>R (tidyverse, ggplot2)</span><span>Python</span><span>SQL</span><span>SAS</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <h3>Machine learning</h3>
+        <div class="skill-tags">
+          <span>Tree-based models</span><span>Neural networks</span><span>Reinforcement learning</span><span>Logistic regression</span><span>Random forest</span><span>KNN</span><span>LDA</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <h3>Data &amp; reporting</h3>
+        <div class="skill-tags">
+          <span>Excel</span><span>PowerPoint</span><span>R Markdown</span><span>Data visualization</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-inner">
+      <div>
+        <h2>Let's talk.</h2>
+        <p style="max-width:38ch; color:var(--text-muted); margin:0;">Open to biostatistics, epidemiology, and data science internships.</p>
+      </div>
+      <div class="footer-links">
+        <a href="mailto:jz7964@nyu.edu">jz7964@nyu.edu</a>
+        <a href="https://www.linkedin.com/in/alice-zhang-6234a8358/" target="_blank" rel="noopener">linkedin.com/in/alice-zhang-6234a8358</a>
+        <a href="resume.pdf" target="_blank" rel="noopener">Download résumé (PDF)</a>
+      </div>
+    </div>
+    <p class="footer-note">Jingjing (Alice) Zhang · New York, NY</p>
+  </div>
+</footer>
+
+<script>
+  // Animate the forest plot rows in on load (respects prefers-reduced-motion via CSS)
+  document.addEventListener('DOMContentLoaded', () => {
+    const rows = document.querySelectorAll('#forest .forest-row');
+    rows.forEach((row) => {
+      const lo = parseFloat(row.dataset.lo);
+      const hi = parseFloat(row.dataset.hi);
+      const est = parseFloat(row.dataset.est);
+      const track = row.querySelector('.forest-track');
+
+      const ci = document.createElement('span');
+      ci.className = 'ci';
+      ci.style.left = lo + '%';
+      ci.style.width = (hi - lo) + '%';
+      track.appendChild(ci);
+
+      const capL = document.createElement('span');
+      capL.className = 'cap';
+      capL.style.left = lo + '%';
+      track.appendChild(capL);
+
+      const capR = document.createElement('span');
+      capR.className = 'cap';
+      capR.style.left = hi + '%';
+      track.appendChild(capR);
+
+      const dot = document.createElement('span');
+      dot.className = 'dot' + (row.classList.contains('muted-row') ? ' muted' : '');
+      dot.style.left = est + '%';
+      track.appendChild(dot);
+    });
+
+    setTimeout(() => {
+      rows.forEach((row, i) => {
+        setTimeout(() => row.classList.add('in'), i * 140);
+      });
+    }, 200);
+  });
+</script>
+
+</body>
+</html>
